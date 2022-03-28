@@ -1,6 +1,7 @@
 package com.example.kotlin.ex9
 
 import java.lang.Appendable
+import java.util.*
 
 class KotlinExample9 {
     fun example() = run {
@@ -12,41 +13,67 @@ class KotlinExample9 {
         println(lazyValue)
         println(lazyValue)
 
-        class newAppend(override val length: Int = 2) : Appendable, CharSequence {
-            override fun append(csq: CharSequence?): Appendable {
-                TODO("Not yet implemented")
-            }
+        val value = listOf(1, 2, 3, 4)
+        val ret =
+            if (value is List<*>) {
+                value.get(0)
+            } else if (value is Map<*, *>) {
+                value[0]
+            }else
+                0
 
-            override fun append(csq: CharSequence?, start: Int, end: Int): Appendable {
-                TODO("Not yet implemented")
-            }
+        /**
+         * 실체화한 타입 파라미터를 이용하는 예
+         */
+        val items = listOf("One", 2, "Three")
+        println(items.filterIsInstance<String>())
 
-            override fun append(c: Char): Appendable {
-                TODO("Not yet implemented")
-            }
-
-            override fun get(index: Int): Char {
-                TODO("Not yet implemented")
-            }
-
-            override fun subSequence(startIndex: Int, endIndex: Int): CharSequence {
-                TODO("Not yet implemented")
-            }
+        /**
+        public inline fun <reified R> Iterable<*>.filterIsInstance(): List<@kotlin.internal.NoInfer R> {
+            return filterIsInstanceTo(ArrayList<R>())
         }
+         */
 
-        val obj = newAppend()
+        /**
+         * 다음은 변성에 관련한 예이다.
+         */
 
-        ensureTrailingPeriod(obj)
+        fun addAnswer(list: MutableList<Any>) = list.add(42)
+
+        val strings = mutableListOf<String>("abc", "bac")
+
+        // 아래의 코드는 컴파일 오류를 발생시킨다. MutalbeList<Any>에 MutableList<String>을 전달할 수 없다.
+        //addAnswer(strings)
     }
+
+    inline fun <reified T> loadService(): ServiceLoader<T> = ServiceLoader.load(T::class.java)
+    
 
     fun <T : Comparable<T>> max(first: T, second: T): T {
         return if (first > second) first else second
     }
 
     fun <T> ensureTrailingPeriod(seq: T)
-        where T : CharSequence, T: Appendable {
-            if(!seq.endsWith('.')) {
-                seq.append('.')
-            }
+            where T : CharSequence, T : Appendable {
+        if (!seq.endsWith('.')) {
+            seq.append('.')
+        }
     }
+
+    fun printSum(c: Collection<Int>) {
+        /*
+        val intList = c as? List<Int>
+            ?: throw java.lang.IllegalArgumentException("List is expected")
+        println(intList.sum())
+         */
+
+        if(c is List<Int>) {
+            println(c.sum())
+        }
+    }
+
+    //fun <T> isA2(value: Any) = value is T
+    inline fun <reified T> isA(value: Any) = value is T
+
+
 }
