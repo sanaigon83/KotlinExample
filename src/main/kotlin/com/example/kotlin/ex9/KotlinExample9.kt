@@ -3,6 +3,14 @@ package com.example.kotlin.ex9
 import java.lang.Appendable
 import java.util.*
 
+/**
+ * 다음은 공변성을 나타내는 out 키워드를 통해 명시적으로 들어내는 예 이다.
+ */
+interface Producer<out T> {
+    fun produce(): T
+}
+
+
 class KotlinExample9 {
     fun example() = run {
         val lazyValue: String by lazy {
@@ -44,6 +52,8 @@ class KotlinExample9 {
 
         // 아래의 코드는 컴파일 오류를 발생시킨다. MutalbeList<Any>에 MutableList<String>을 전달할 수 없다.
         //addAnswer(strings)
+
+        //enumerateCats(Animal::getIndex)
     }
 
     inline fun <reified T> loadService(): ServiceLoader<T> = ServiceLoader.load(T::class.java)

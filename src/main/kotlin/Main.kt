@@ -6,6 +6,7 @@ import com.example.kotlin.ex3.KotlinExample3
 import com.example.kotlin.ex4.*
 import com.example.kotlin.ex5.KotlinExample5
 import com.example.kotlin.ex6.KotlinExample6
+import com.example.kotlin.ex7.KotlinExample7
 import com.example.kotlin.ex8.KotlinExample8
 import com.example.kotlin.ex9.KotlinExample9
 //import com.example.kotlin.ex1.Person
@@ -41,7 +42,7 @@ fun main() {
     val o = listOf(1,2,3,4)
     */
 
-    val obj = KotlinExample9()
+    val obj = KotlinExample7()
     obj.example()
 
 }
