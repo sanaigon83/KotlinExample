@@ -44,10 +44,29 @@ class KotlinExample9 {
 
         // 아래의 코드는 컴파일 오류를 발생시킨다. MutalbeList<Any>에 MutableList<String>을 전달할 수 없다.
         //addAnswer(strings)
+
+
     }
 
     inline fun <reified T> loadService(): ServiceLoader<T> = ServiceLoader.load(T::class.java)
-    
+
+    /**
+     * 한 리스트에서 다른 리스트에 복사하려면 Source이 type은 Destination의 type 의 하위 타입이여야 한다.
+     */
+    fun <T: R, R> copyData(source: MutableList<T>, destination: MutableList<R>) {
+        for( item in source ){
+            destination.add(item)
+        }
+    }
+
+    /**
+     * 변성 표기자를 이용하면 in, out 표시로 간단하게 이를 해결할 할 수 있다.
+     */
+    fun <T> copyDataElegant(source: MutableList<out T>, destination: MutableList<T>) {
+        for( item in source ){
+            destination.add(item)
+        }
+    }
 
     fun <T : Comparable<T>> max(first: T, second: T): T {
         return if (first > second) first else second
